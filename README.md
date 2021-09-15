@@ -18,6 +18,7 @@ This plugin allows Flutter **desktop** apps to notify local notifications.
   - [Platform Support](#platform-support)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
+      - [⚠️ Linux requirements](#️-linux-requirements)
     - [Usage](#usage)
   - [Who's using it?](#whos-using-it)
   - [Discussion](#discussion)
@@ -31,7 +32,7 @@ This plugin allows Flutter **desktop** apps to notify local notifications.
 
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
-|  ➖   |  ✔️   |   ➖    |
+|   ✔️   |   ✔️   |    ➖    |
 
 ## Quick Start
 
@@ -52,6 +53,16 @@ dependencies:
     git:
       url: https://github.com/leanflutter/local_notifier.git
       ref: main
+```
+
+#### ⚠️ Linux requirements
+
+- `libnotify`
+
+Run the following command
+
+```
+sudo apt-get install libnotify-dev
 ```
 
 ### Usage
@@ -85,7 +96,7 @@ await localNotifier.notify(notification);
 
 | Method   | Description | Linux | macOS | Windows |
 | -------- | ----------- | ----- | ----- | ------- |
-| `notify` | -           | ➖    | ✔️    | ➖      |
+| `notify` | -           | ✔️     | ✔️     | ➖       |
 
 ## License
 

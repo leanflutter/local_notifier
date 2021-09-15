@@ -5,6 +5,7 @@
 #include <sys/utsname.h>
 
 #include <cstring>
+#include <libnotify/notify.h>
 
 #define LOCAL_NOTIFIER_PLUGIN(obj)                                     \
   (G_TYPE_CHECK_INSTANCE_CAST((obj), local_notifier_plugin_get_type(), \
@@ -34,9 +35,17 @@ GdkWindow *get_gdk_window(LocalNotifierPlugin *self)
 }
 
 static FlMethodResponse *notify(LocalNotifierPlugin *self,
-                                             FlValue *args)
+                                FlValue *args)
 {
-  return FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
+  const gchar *title = fl_value_get_string(fl_value_lookup_string(args, "title"));
+  const gchar *subtitle = fl_value_get_string(fl_value_lookup_string(args, "subtitle"));
+  // const gchar *body = fl_value_get_string(fl_value_lookup_string(args, "body"));
+
+  notify_init("local_notifier");
+  NotifyNotification *n = notify_notification_new(title, subtitle, 0);
+  notify_notification_show(n, 0);
+
+  return FL_METHOD_RESPONSE(fl_method_success_response_new(fl_value_new_bool(true)));
 }
 
 // Called when a method call is received from Flutter.

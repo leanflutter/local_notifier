@@ -6,6 +6,9 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 # not be changed
 set(PLUGIN_NAME "local_notifier_plugin")
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules (NOTIFY REQUIRED IMPORTED_TARGET libnotify)
+
 add_library(${PLUGIN_NAME} SHARED
   "local_notifier_plugin.cc"
 )
@@ -17,6 +20,7 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
   "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PLUGIN_NAME} PRIVATE flutter)
 target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
+target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::NOTIFY)
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(local_notifier_bundled_libraries
