@@ -28,6 +28,7 @@
   - [谁在用使用它？](#谁在用使用它)
   - [API](#api)
     - [LocalNotifier](#localnotifier)
+  - [相关链接](#相关链接)
   - [许可证](#许可证)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -36,7 +37,7 @@
 
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
-|   ✔️   |   ✔️   |    ➖    |
+|   ✔️   |   ✔️   |    ✔️    |
 
 ## 快速开始
 
@@ -46,7 +47,7 @@
 
 ```yaml
 dependencies:
-  local_notifier: ^0.0.1
+  local_notifier: ^0.1.0
 ```
 
 或
@@ -90,9 +91,13 @@ await localNotifier.notify(notification);
 
 ### LocalNotifier
 
-| Method   | Description | Linux | macOS | Windows |
-| -------- | ----------- | ----- | ----- | ------- |
-| `notify` | -           | ✔️     | ✔️     | ➖       |
+| Method   | Description          | Linux | macOS | Windows |
+| -------- | -------------------- | ----- | ----- | ------- |
+| `notify` | 立即向用户显示通知。 | ✔️     | ✔️     | ✔️       |
+
+## 相关链接
+
+- https://github.com/mohabouje/WinToast
 
 ## 许可证
 

@@ -4,7 +4,7 @@ class LocalNotification {
   String identifier = Uuid().v4();
 
   /// Representing the title of the notification.
-  String? title;
+  String title;
 
   /// Representing the subtitle of the notification.
   String? subtitle;
@@ -17,7 +17,7 @@ class LocalNotification {
 
   LocalNotification({
     String? identifier,
-    this.title,
+    required this.title,
     this.subtitle,
     this.body,
     this.silent = false,
@@ -41,8 +41,8 @@ class LocalNotification {
     return {
       'identifier': identifier,
       'title': title,
-      'subtitle': subtitle,
-      'body': body,
+      'subtitle': subtitle ?? '',
+      'body': body ?? '',
       'silent': silent,
     }..removeWhere((key, value) => value == null);
   }

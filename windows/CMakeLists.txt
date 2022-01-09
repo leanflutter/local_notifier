@@ -7,6 +7,8 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 set(PLUGIN_NAME "local_notifier_plugin")
 
 add_library(${PLUGIN_NAME} SHARED
+  "wintoastlib.h"
+  "wintoastlib.cpp"
   "local_notifier_plugin.cpp"
 )
 apply_standard_settings(${PLUGIN_NAME})

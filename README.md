@@ -28,6 +28,7 @@ English | [简体中文](./README-ZH.md)
   - [Who's using it?](#whos-using-it)
   - [API](#api)
     - [LocalNotifier](#localnotifier)
+  - [Related Links](#related-links)
   - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -36,7 +37,7 @@ English | [简体中文](./README-ZH.md)
 
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
-|   ✔️   |   ✔️   |    ➖    |
+|   ✔️   |   ✔️   |    ✔️    |
 
 ## Quick Start
 
@@ -46,7 +47,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  local_notifier: ^0.0.1
+  local_notifier: ^0.1.0
 ```
 
 Or
@@ -90,9 +91,13 @@ await localNotifier.notify(notification);
 
 ### LocalNotifier
 
-| Method   | Description | Linux | macOS | Windows |
-| -------- | ----------- | ----- | ----- | ------- |
-| `notify` | -           | ✔️     | ✔️     | ➖       |
+| Method   | Description                                     | Linux | macOS | Windows |
+| -------- | ----------------------------------------------- | ----- | ----- | ------- |
+| `notify` | Immediately shows the notification to the user. | ✔️     | ✔️     | ✔️       |
+
+## Related Links
+
+- https://github.com/mohabouje/WinToast
 
 ## License
 

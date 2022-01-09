@@ -1,5 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preference_list/preference_list.dart';
 import 'package:local_notifier/local_notifier.dart';
@@ -16,7 +14,7 @@ class _HomePageState extends State<HomePage> {
     LocalNotification notification = LocalNotification(
       identifier: 'identifier',
       title: "local_notifier_example",
-      subtitle: "local_notifier_example",
+      subtitle: "example",
       body: "hello flutter!",
     );
     await localNotifier.notify(notification);
