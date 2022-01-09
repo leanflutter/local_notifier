@@ -1,6 +1,6 @@
 PODS:
   - FlutterMacOS (1.0.0)
-  - local_notifier (0.0.1):
+  - local_notifier (0.1.0):
     - FlutterMacOS
 
 DEPENDENCIES:
@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
-  local_notifier: 6e0c5331980fef60ac11f370d45863bf614fcf35
+  local_notifier: 67b44a2825d7d99946ccd15c02d4e7910ded79c8
 
 PODFILE CHECKSUM: 0d3963a09fc94f580682bd88480486da345dc3f0
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
