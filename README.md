@@ -47,7 +47,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.0
+  local_notifier: ^0.1.1
 ```
 
 Or
