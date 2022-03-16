@@ -7,7 +7,6 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 set(PLUGIN_NAME "local_notifier_plugin")
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules (NOTIFY REQUIRED IMPORTED_TARGET libnotify)
 
 add_library(${PLUGIN_NAME} SHARED
   "local_notifier_plugin.cc"
@@ -20,7 +19,17 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
   "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PLUGIN_NAME} PRIVATE flutter)
 target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
-target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::NOTIFY)
+
+pkg_check_modules(NOTIFY IMPORTED_TARGET libnotify)
+if(NOTIFY_FOUND)
+  target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::NOTIFY)
+else() 
+  message(
+    FATAL_ERROR
+    "\n"
+    "The `local_notifier` package requires libnotify-dev. See https://github.com/leanflutter/local_notifier#linux-requirements"
+  )
+endif()
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(local_notifier_bundled_libraries
