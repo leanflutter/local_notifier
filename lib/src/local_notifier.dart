@@ -1,11 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'local_notification_listener.dart';
 import 'local_notification.dart';
-
-// typedef LocalNotificationHandler = void Function(
-//     LocalNotification notification);
 
 class LocalNotifier {
   LocalNotifier._() {
@@ -17,21 +16,70 @@ class LocalNotifier {
 
   final MethodChannel _channel = const MethodChannel('local_notifier');
 
-  // List<LocalNotification> _notificationList = [];
-  // Map<String, LocalNotificationHandler> _notificationHandlerMap = {};
+  final ObserverList<LocalNotificationListener> _listeners =
+      ObserverList<LocalNotificationListener>();
+
+  Map<String, LocalNotification> _notifications = {};
 
   Future<void> _methodCallHandler(MethodCall call) async {
-    print(call.method);
-    print(call.arguments);
-    if (call.method != 'onEvent') throw UnimplementedError();
+    String notificationId = call.arguments['notificationId'];
+    LocalNotification? localNotification = _notifications[notificationId];
 
-    String eventName = call.arguments['eventName'];
-    print(eventName);
+    for (final LocalNotificationListener listener in listeners) {
+      if (!_listeners.contains(listener)) {
+        return;
+      }
+
+      if (call.method == 'onLocalNotificationShow') {
+        listener.onLocalNotificationShow(localNotification!);
+      } else if (call.method == 'onLocalNotificationClose') {
+        listener.onLocalNotificationClose(localNotification!);
+      } else if (call.method == 'onLocalNotificationClick') {
+        listener.onLocalNotificationClick(localNotification!);
+      } else {
+        throw UnimplementedError();
+      }
+    }
+  }
+
+  List<LocalNotificationListener> get listeners {
+    final List<LocalNotificationListener> localListeners =
+        List<LocalNotificationListener>.from(_listeners);
+    return localListeners;
+  }
+
+  bool get hasListeners {
+    return _listeners.isNotEmpty;
+  }
+
+  void addListener(LocalNotificationListener listener) {
+    _listeners.add(listener);
+  }
+
+  void removeListener(LocalNotificationListener listener) {
+    _listeners.remove(listener);
   }
 
   /// Immediately shows the notification to the user.
   Future<void> notify(LocalNotification notification) async {
+    _notifications[notification.identifier] = notification;
+
     final Map<String, dynamic> arguments = notification.toJson();
     await _channel.invokeMethod('notify', arguments);
   }
+
+  /// Closes the notification immediately.
+  Future<void> close(LocalNotification notification) async {
+    final Map<String, dynamic> arguments = notification.toJson();
+    await _channel.invokeMethod('close', arguments);
+  }
+
+  /// Destroys the notification immediately.
+  Future<void> destroy(LocalNotification notification) async {
+    await close(notification);
+    removeListener(notification);
+    _notifications.remove(notification.identifier);
+  }
 }
+
+final localNotifier = LocalNotifier.instance;

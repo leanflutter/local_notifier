@@ -75,10 +75,19 @@ sudo apt-get install libnotify-dev
 ```dart
 LocalNotification notification = LocalNotification(
   title: "local_notifier_example",
-  subtitle: "subtitle",
   body: "hello flutter!",
 );
-await localNotifier.notify(notification);
+notification.onShow = () {
+  print('onShow ${notification.identifier}');
+};
+notification.onClose = () {
+  print('onClose ${notification.identifier}');
+};
+notification.onClick = () {
+  print('onClick ${notification.identifier}');
+};
+
+notification.show();
 ```
 
 > 请看这个插件的示例应用，以了解完整的例子。
