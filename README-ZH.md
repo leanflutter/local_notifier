@@ -26,8 +26,6 @@
       - [Linux requirements](#linux-requirements)
     - [用法](#用法)
   - [谁在用使用它？](#谁在用使用它)
-  - [API](#api)
-    - [LocalNotifier](#localnotifier)
   - [相关链接](#相关链接)
   - [许可证](#许可证)
 
@@ -47,7 +45,7 @@
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.1
+  local_notifier: ^0.1.2
 ```
 
 或
@@ -86,6 +84,9 @@ notification.onClose = () {
 notification.onClick = () {
   print('onClick ${notification.identifier}');
 };
+notification?.onClickAction = (actionIndex) {
+  print('onClickAction ${notification?.identifier} - $actionIndex');
+};
 
 notification.show();
 ```
@@ -95,14 +96,6 @@ notification.show();
 ## 谁在用使用它？
 
 - [Biyi (比译)](https://biyidev.com/) - 一个便捷的翻译和词典应用。
-
-## API
-
-### LocalNotifier
-
-| Method   | Description          | Linux | macOS | Windows |
-| -------- | -------------------- | ----- | ----- | ------- |
-| `notify` | 立即向用户显示通知。 | ✔️     | ✔️     | ✔️       |
 
 ## 相关链接
 

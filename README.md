@@ -26,8 +26,6 @@ English | [简体中文](./README-ZH.md)
       - [Linux requirements](#linux-requirements)
     - [Usage](#usage)
   - [Who's using it?](#whos-using-it)
-  - [API](#api)
-    - [LocalNotifier](#localnotifier)
   - [Related Links](#related-links)
   - [License](#license)
 
@@ -47,7 +45,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.1
+  local_notifier: ^0.1.2
 ```
 
 Or
@@ -86,6 +84,9 @@ notification.onClose = () {
 notification.onClick = () {
   print('onClick ${notification.identifier}');
 };
+notification?.onClickAction = (actionIndex) {
+  print('onClickAction ${notification?.identifier} - $actionIndex');
+};
 
 notification.show();
 ```
@@ -95,14 +96,6 @@ notification.show();
 ## Who's using it?
 
 - [Biyi (比译)](https://biyidev.com/) - A convenient translation and dictionary app.
-
-## API
-
-### LocalNotifier
-
-| Method   | Description                                     | Linux | macOS | Windows |
-| -------- | ----------------------------------------------- | ----- | ----- | ------- |
-| `notify` | Immediately shows the notification to the user. | ✔️     | ✔️     | ✔️       |
 
 ## Related Links
 
