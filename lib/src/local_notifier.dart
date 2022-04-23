@@ -74,7 +74,7 @@ class LocalNotifier {
 
   /// Immediately shows the notification to the user.
   Future<void> notify(LocalNotification notification) async {
-    if (Platform.isWindows && _appName == null) {
+    if ((Platform.isLinux || Platform.isWindows) && _appName == null) {
       throw Exception(
         'Missing appName, must call `localNotifier.setAppName` to set.',
       );

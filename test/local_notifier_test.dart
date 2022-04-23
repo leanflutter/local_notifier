@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:local_notifier/local_notifier.dart';
+// import 'package:local_notifier/local_notifier.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('local_notifier');
