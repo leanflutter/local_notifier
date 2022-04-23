@@ -16,22 +16,51 @@
 
 using namespace WinToastLib;
 
-class CustomToastHandler : public IWinToastHandler {
- public:
-  void toastActivated() const {}
-
-  void toastActivated(int actionIndex) const {}
-
-  void toastDismissed(WinToastDismissalReason state) const {}
-
-  void toastFailed() const {}
-};
-
 namespace {
 std::unique_ptr<
     flutter::MethodChannel<flutter::EncodableValue>,
     std::default_delete<flutter::MethodChannel<flutter::EncodableValue>>>
     channel = nullptr;
+
+class CustomToastHandler : public IWinToastHandler {
+ public:
+  CustomToastHandler(std::string identifier);
+
+  void toastActivated() const {
+    flutter::EncodableMap args = flutter::EncodableMap();
+    args[flutter::EncodableValue("notificationId")] =
+        flutter::EncodableValue(identifier);
+    channel->InvokeMethod("onLocalNotificationClick",
+                          std::make_unique<flutter::EncodableValue>(args));
+  }
+
+  void toastActivated(int actionIndex) const {
+    flutter::EncodableMap args = flutter::EncodableMap();
+    args[flutter::EncodableValue("notificationId")] =
+        flutter::EncodableValue(identifier);
+    args[flutter::EncodableValue("actionIndex")] =
+        flutter::EncodableValue(actionIndex);
+    channel->InvokeMethod("onLocalNotificationClickAction",
+                          std::make_unique<flutter::EncodableValue>(args));
+  }
+
+  void toastDismissed(WinToastDismissalReason state) const {
+    flutter::EncodableMap args = flutter::EncodableMap();
+    args[flutter::EncodableValue("notificationId")] =
+        flutter::EncodableValue(identifier);
+    channel->InvokeMethod("onLocalNotificationClose",
+                          std::make_unique<flutter::EncodableValue>(args));
+  }
+
+  void toastFailed() const {}
+
+ private:
+  std::string identifier;
+};
+
+CustomToastHandler::CustomToastHandler(std::string identifier) {
+  this->identifier = identifier;
+}
 
 class LocalNotifierPlugin : public flutter::Plugin {
  public:
@@ -44,10 +73,13 @@ class LocalNotifierPlugin : public flutter::Plugin {
  private:
   flutter::PluginRegistrarWindows* registrar;
 
-  void LocalNotifierPlugin::_EmitEvent(std::string eventName);
+  std::unordered_map<std::string, INT64> toast_id_map_ = {};
 
   HWND LocalNotifierPlugin::GetMainWindow();
   void LocalNotifierPlugin::Notify(
+      const flutter::MethodCall<flutter::EncodableValue>& method_call,
+      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+  void LocalNotifierPlugin::Close(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
 
@@ -78,14 +110,6 @@ LocalNotifierPlugin::LocalNotifierPlugin() {}
 
 LocalNotifierPlugin::~LocalNotifierPlugin() {}
 
-void LocalNotifierPlugin::_EmitEvent(std::string eventName) {
-  flutter::EncodableMap args = flutter::EncodableMap();
-  args[flutter::EncodableValue("eventName")] =
-      flutter::EncodableValue(eventName);
-  channel->InvokeMethod("onEvent",
-                        std::make_unique<flutter::EncodableValue>(args));
-}
-
 HWND LocalNotifierPlugin::GetMainWindow() {
   return ::GetAncestor(registrar->GetView()->GetNativeWindow(), GA_ROOT);
 }
@@ -101,27 +125,66 @@ void LocalNotifierPlugin::Notify(
 
   const flutter::EncodableMap& args =
       std::get<flutter::EncodableMap>(*method_call.arguments());
+
+  std::string appName =
+      std::get<std::string>(args.at(flutter::EncodableValue("appName")));
+
+  std::string identifier =
+      std::get<std::string>(args.at(flutter::EncodableValue("identifier")));
   std::string title =
       std::get<std::string>(args.at(flutter::EncodableValue("title")));
-  std::string subtitle =
-      std::get<std::string>(args.at(flutter::EncodableValue("subtitle")));
   std::string body =
       std::get<std::string>(args.at(flutter::EncodableValue("body")));
 
-  std::wstring appName = converter.from_bytes(title);
-  std::wstring appUserModelID = converter.from_bytes(title);
+  flutter::EncodableList actions = std::get<flutter::EncodableList>(
+      args.at(flutter::EncodableValue("actions")));
 
-  WinToast::instance()->setAppName(appName);
-  WinToast::instance()->setAppUserModelId(appUserModelID);
+  WinToast::instance()->setAppName(converter.from_bytes(appName));
+  WinToast::instance()->setAppUserModelId(converter.from_bytes(appName));
   WinToast::instance()->initialize();
 
   WinToastTemplate toast = WinToastTemplate(WinToastTemplate::Text02);
-  toast.setTextField(converter.from_bytes(subtitle),
-                     WinToastTemplate::FirstLine);
+  toast.setTextField(converter.from_bytes(title), WinToastTemplate::FirstLine);
   toast.setTextField(converter.from_bytes(body), WinToastTemplate::SecondLine);
 
-  CustomToastHandler* handler = new CustomToastHandler();
-  WinToast::instance()->showToast(toast, handler);
+  for (flutter::EncodableValue action_value : actions) {
+    flutter::EncodableMap action_map =
+        std::get<flutter::EncodableMap>(action_value);
+    std::string action_text =
+        std::get<std::string>(action_map.at(flutter::EncodableValue("text")));
+
+    toast.addAction(converter.from_bytes(action_text));
+  }
+
+  CustomToastHandler* handler = new CustomToastHandler(identifier);
+  INT64 toast_id = WinToast::instance()->showToast(toast, handler);
+
+  toast_id_map_.insert(std::make_pair(identifier, toast_id));
+
+  flutter::EncodableMap args2 = flutter::EncodableMap();
+  args2[flutter::EncodableValue("notificationId")] =
+      flutter::EncodableValue(identifier);
+  channel->InvokeMethod("onLocalNotificationShow",
+                        std::make_unique<flutter::EncodableValue>(args2));
+
+  result->Success(flutter::EncodableValue(true));
+}
+
+void LocalNotifierPlugin::Close(
+    const flutter::MethodCall<flutter::EncodableValue>& method_call,
+    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
+  const flutter::EncodableMap& args =
+      std::get<flutter::EncodableMap>(*method_call.arguments());
+
+  std::string identifier =
+      std::get<std::string>(args.at(flutter::EncodableValue("identifier")));
+
+  if (toast_id_map_.find(identifier) != toast_id_map_.end()) {
+    INT64 toast_id = toast_id_map_.at(identifier);
+
+    WinToast::instance()->hideToast(toast_id);
+    toast_id_map_.erase(identifier);
+  }
 
   result->Success(flutter::EncodableValue(true));
 }
@@ -131,6 +194,8 @@ void LocalNotifierPlugin::HandleMethodCall(
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
   if (method_call.method_name().compare("notify") == 0) {
     Notify(method_call, std::move(result));
+  } else if (method_call.method_name().compare("close") == 0) {
+    Close(method_call, std::move(result));
   } else {
     result->NotImplemented();
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,7 @@ class LocalNotifier {
   final ObserverList<LocalNotificationListener> _listeners =
       ObserverList<LocalNotificationListener>();
 
+  String? _appName;
   Map<String, LocalNotification> _notifications = {};
 
   Future<void> _methodCallHandler(MethodCall call) async {
@@ -36,6 +38,12 @@ class LocalNotifier {
         listener.onLocalNotificationClose(localNotification!);
       } else if (call.method == 'onLocalNotificationClick') {
         listener.onLocalNotificationClick(localNotification!);
+      } else if (call.method == 'onLocalNotificationClickAction') {
+        int actionIndex = call.arguments['actionIndex'];
+        listener.onLocalNotificationClickAction(
+          localNotification!,
+          actionIndex,
+        );
       } else {
         throw UnimplementedError();
       }
@@ -60,11 +68,22 @@ class LocalNotifier {
     _listeners.remove(listener);
   }
 
+  void setAppName(String appName) {
+    _appName = appName;
+  }
+
   /// Immediately shows the notification to the user.
   Future<void> notify(LocalNotification notification) async {
+    if (Platform.isWindows && _appName == null) {
+      throw Exception(
+        'Missing appName, must call `localNotifier.setAppName` to set.',
+      );
+    }
+
     _notifications[notification.identifier] = notification;
 
     final Map<String, dynamic> arguments = notification.toJson();
+    arguments['appName'] = _appName;
     await _channel.invokeMethod('notify', arguments);
   }
 

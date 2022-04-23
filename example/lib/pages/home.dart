@@ -12,12 +12,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   LocalNotification? _exampleNotification = LocalNotification(
     identifier: '_exampleNotification',
-    title: "local_notifier_example",
-    subtitle: "example",
+    title: "example",
     body: "hello flutter!",
     actions: [
       LocalNotificationAction(
-        text: 'OK',
+        text: 'Yes',
+      ),
+      LocalNotificationAction(
+        text: 'No',
       ),
     ],
   );
@@ -37,12 +39,15 @@ class _HomePageState extends State<HomePage> {
     _exampleNotification?.onClick = () {
       print('onClick ${_exampleNotification?.identifier}');
     };
+    _exampleNotification?.onClickAction = (actionIndex) {
+      print('onClickAction ${_exampleNotification?.identifier} - $actionIndex');
+    };
   }
 
   _handleNewLocalNotification() async {
     LocalNotification notification = LocalNotification(
-      title: "local_notifier_example",
-      subtitle: "example - ${_notificationList.length}",
+      title: "example - ${_notificationList.length}",
+      subtitle: "local_notifier_example",
       body: "hello flutter!",
     );
     notification.onShow = () {

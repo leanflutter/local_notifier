@@ -6,6 +6,8 @@ import './pages/home.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
+  localNotifier.setAppName('example');
+
   runApp(MyApp());
 }
 

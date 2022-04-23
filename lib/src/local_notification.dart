@@ -26,6 +26,7 @@ class LocalNotification with LocalNotificationListener {
   VoidCallback? onShow;
   VoidCallback? onClose;
   VoidCallback? onClick;
+  ValueChanged<int>? onClickAction;
 
   LocalNotification({
     String? identifier,
@@ -67,7 +68,7 @@ class LocalNotification with LocalNotificationListener {
       'subtitle': subtitle ?? '',
       'body': body ?? '',
       'silent': silent,
-      'actions': actions?.map((e) => e.toJson()).toList(),
+      'actions': (actions ?? []).map((e) => e.toJson()).toList(),
     }..removeWhere((key, value) => value == null);
   }
 
@@ -108,5 +109,16 @@ class LocalNotification with LocalNotificationListener {
       return;
     }
     onClick!();
+  }
+
+  @override
+  void onLocalNotificationClickAction(
+    LocalNotification notification,
+    int actionIndex,
+  ) {
+    if (identifier != notification.identifier || onClickAction == null) {
+      return;
+    }
+    onClickAction!(actionIndex);
   }
 }
