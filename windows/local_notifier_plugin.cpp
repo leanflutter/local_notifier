@@ -141,6 +141,7 @@ void LocalNotifierPlugin::Notify(
 
   WinToast::instance()->setAppName(converter.from_bytes(appName));
   WinToast::instance()->setAppUserModelId(converter.from_bytes(appName));
+  WinToast::instance()->setShortcutPolicy(WinToast::SHORTCUT_POLICY_IGNORE);
   WinToast::instance()->initialize();
 
   WinToastTemplate toast = WinToastTemplate(WinToastTemplate::Text02);
