@@ -71,6 +71,9 @@ sudo apt-get install libnotify-dev
 ### 用法
 
 ```dart
+// 在 main 方法中添加这行。
+localNotifier.setAppName('example');
+
 LocalNotification notification = LocalNotification(
   title: "local_notifier_example",
   body: "hello flutter!",

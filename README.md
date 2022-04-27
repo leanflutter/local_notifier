@@ -71,6 +71,9 @@ sudo apt-get install libnotify-dev
 ### Usage
 
 ```dart
+// Add this line in main method.
+localNotifier.setAppName('example');
+
 LocalNotification notification = LocalNotification(
   title: "local_notifier_example",
   body: "hello flutter!",
