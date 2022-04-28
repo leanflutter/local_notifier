@@ -45,7 +45,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.2
+  local_notifier: ^0.1.3
 ```
 
 Or
@@ -81,8 +81,18 @@ LocalNotification notification = LocalNotification(
 notification.onShow = () {
   print('onShow ${notification.identifier}');
 };
-notification.onClose = () {
-  print('onClose ${notification.identifier}');
+notification.onClose = (closeReason) {
+  // Only supported on windows, other platforms closeReason is always unknown.
+  switch (closeReason) {
+    case LocalNotificationCloseReason.userCanceled:
+      // do something
+      break;
+    case LocalNotificationCloseReason.timedOut:
+      // do something
+      break;
+    default:
+  }
+  print('onClose ${_exampleNotification?.identifier} - $closeReason');
 };
 notification.onClick = () {
   print('onClick ${notification.identifier}');

@@ -1,3 +1,8 @@
+## 0.1.3
+
+* [windows] Fix auto-create shortcut #5
+* [windows] Add closeReason in onLocalNotificationClose event #6
+
 ## 0.1.2
 
 * Implemented `close` method.

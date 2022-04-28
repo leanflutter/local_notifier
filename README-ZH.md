@@ -45,7 +45,7 @@
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.2
+  local_notifier: ^0.1.3
 ```
 
 或
@@ -81,8 +81,18 @@ LocalNotification notification = LocalNotification(
 notification.onShow = () {
   print('onShow ${notification.identifier}');
 };
-notification.onClose = () {
-  print('onClose ${notification.identifier}');
+notification.onClose = (closeReason) {
+  // 只支持在windows，其他平台 closeReason 始终为 unknown。
+  switch (closeReason) {
+    case LocalNotificationCloseReason.userCanceled:
+      // do something
+      break;
+    case LocalNotificationCloseReason.timedOut:
+      // do something
+      break;
+    default:
+  }
+  print('onClose ${_exampleNotification?.identifier} - $closeReason');
 };
 notification.onClick = () {
   print('onClick ${notification.identifier}');
