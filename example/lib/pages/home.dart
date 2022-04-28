@@ -33,8 +33,8 @@ class _HomePageState extends State<HomePage> {
     _exampleNotification?.onShow = () {
       print('onShow ${_exampleNotification?.identifier}');
     };
-    _exampleNotification?.onClose = () {
-      print('onClose ${_exampleNotification?.identifier}');
+    _exampleNotification?.onClose = (closeReason) {
+      print('onClose ${_exampleNotification?.identifier} - $closeReason');
     };
     _exampleNotification?.onClick = () {
       print('onClick ${_exampleNotification?.identifier}');
@@ -53,8 +53,8 @@ class _HomePageState extends State<HomePage> {
     notification.onShow = () {
       print('onShow ${notification.identifier}');
     };
-    notification.onClose = () {
-      print('onClose ${notification.identifier}');
+    notification.onClose = (closeReason) {
+      print('onClose ${notification.identifier} - $closeReason');
     };
     notification.onClick = () {
       print('onClick ${notification.identifier}');

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import 'local_notification_action.dart';
+import 'local_notification_close_reason.dart';
 import 'local_notification_listener.dart';
 import 'local_notifier.dart';
 
@@ -24,7 +25,7 @@ class LocalNotification with LocalNotificationListener {
   List<LocalNotificationAction>? actions;
 
   VoidCallback? onShow;
-  VoidCallback? onClose;
+  ValueChanged<LocalNotificationCloseReason>? onClose;
   VoidCallback? onClick;
   ValueChanged<int>? onClickAction;
 
@@ -96,11 +97,14 @@ class LocalNotification with LocalNotificationListener {
   }
 
   @override
-  void onLocalNotificationClose(LocalNotification notification) {
+  void onLocalNotificationClose(
+    LocalNotification notification,
+    LocalNotificationCloseReason closeReason,
+  ) {
     if (identifier != notification.identifier || onClose == null) {
       return;
     }
-    onClose!();
+    onClose!(closeReason);
   }
 
   @override

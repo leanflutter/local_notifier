@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'local_notification_close_reason.dart';
 import 'local_notification_listener.dart';
 import 'local_notification.dart';
 
@@ -35,7 +36,15 @@ class LocalNotifier {
       if (call.method == 'onLocalNotificationShow') {
         listener.onLocalNotificationShow(localNotification!);
       } else if (call.method == 'onLocalNotificationClose') {
-        listener.onLocalNotificationClose(localNotification!);
+        LocalNotificationCloseReason closeReason =
+            LocalNotificationCloseReason.values.firstWhere(
+          (e) => describeEnum(e) == call.arguments['closeReason'],
+          orElse: () => LocalNotificationCloseReason.unknown,
+        );
+        listener.onLocalNotificationClose(
+          localNotification!,
+          closeReason,
+        );
       } else if (call.method == 'onLocalNotificationClick') {
         listener.onLocalNotificationClick(localNotification!);
       } else if (call.method == 'onLocalNotificationClickAction') {

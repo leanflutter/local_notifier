@@ -45,9 +45,25 @@ class CustomToastHandler : public IWinToastHandler {
   }
 
   void toastDismissed(WinToastDismissalReason state) const {
+    std::string closeReason = "unknown";
+
+    switch (state) {
+      case UserCanceled:
+        closeReason = "userCanceled";
+        break;
+      case TimedOut:
+        closeReason = "timedOut";
+        break;
+      default:
+        break;
+    }
+
     flutter::EncodableMap args = flutter::EncodableMap();
     args[flutter::EncodableValue("notificationId")] =
         flutter::EncodableValue(identifier);
+    args[flutter::EncodableValue("closeReason")] =
+        flutter::EncodableValue(closeReason);
+
     channel->InvokeMethod("onLocalNotificationClose",
                           std::make_unique<flutter::EncodableValue>(args));
   }
