@@ -1,3 +1,7 @@
+## 0.1.4
+
+* [linux] Fixed build failed with error. #8
+
 ## 0.1.3
 
 * [windows] Fix auto-create shortcut #5
