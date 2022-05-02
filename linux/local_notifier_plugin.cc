@@ -8,6 +8,7 @@
 #include <cstring>
 #include <map>
 #include <vector>
+#include <string>
 
 #include <libnotify/notify.h>
 
