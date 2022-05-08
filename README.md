@@ -21,6 +21,7 @@ English | [简体中文](./README-ZH.md)
 
 - [local_notifier](#local_notifier)
   - [Platform Support](#platform-support)
+  - [Screenshots](#screenshots)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
       - [Linux requirements](#linux-requirements)
@@ -36,6 +37,12 @@ English | [简体中文](./README-ZH.md)
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
 |   ✔️   |   ✔️   |    ✔️    |
+
+## Screenshots
+
+| macOS                                                                                       | Linux                                                                                       | Windows                                                                                            |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| ![](https://github.com/leanflutter/local_notifier/blob/main/screenshots/macos.png?raw=true) | ![](https://github.com/leanflutter/local_notifier/blob/main/screenshots/linux.png?raw=true) | ![image](https://github.com/leanflutter/local_notifier/blob/main/screenshots/windows.png?raw=true) |
 
 ## Quick Start
 

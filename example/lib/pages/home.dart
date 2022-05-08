@@ -34,6 +34,15 @@ class _HomePageState extends State<HomePage> {
       print('onShow ${_exampleNotification?.identifier}');
     };
     _exampleNotification?.onClose = (closeReason) {
+      switch (closeReason) {
+        case LocalNotificationCloseReason.userCanceled:
+          // do something
+          break;
+        case LocalNotificationCloseReason.timedOut:
+          // do something
+          break;
+        default:
+      }
       print('onClose ${_exampleNotification?.identifier} - $closeReason');
     };
     _exampleNotification?.onClick = () {

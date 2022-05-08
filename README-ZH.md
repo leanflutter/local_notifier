@@ -21,6 +21,7 @@
 
 - [local_notifier](#local_notifier)
   - [平台支持](#平台支持)
+  - [截图](#截图)
   - [快速开始](#快速开始)
     - [安装](#安装)
       - [Linux requirements](#linux-requirements)
@@ -36,6 +37,12 @@
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
 |   ✔️   |   ✔️   |    ✔️    |
+
+## 截图
+
+| macOS                                                                                       | Linux                                                                                       | Windows                                                                                            |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| ![](https://github.com/leanflutter/local_notifier/blob/main/screenshots/macos.png?raw=true) | ![](https://github.com/leanflutter/local_notifier/blob/main/screenshots/linux.png?raw=true) | ![image](https://github.com/leanflutter/local_notifier/blob/main/screenshots/windows.png?raw=true) |
 
 ## 快速开始
 
