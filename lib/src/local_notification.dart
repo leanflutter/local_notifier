@@ -84,7 +84,7 @@ class LocalNotification with LocalNotificationListener {
   }
 
   /// Destroys the notification immediately.
-  Future<void> destory() {
+  Future<void> destroy() {
     return localNotifier.destroy(this);
   }
 

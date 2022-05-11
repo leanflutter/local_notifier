@@ -97,9 +97,9 @@ class _HomePageState extends State<HomePage> {
               onTap: () => _exampleNotification?.close(),
             ),
             PreferenceListItem(
-              title: Text('destory'),
+              title: Text('destroy'),
               onTap: () async {
-                await _exampleNotification?.destory();
+                await _exampleNotification?.destroy();
                 _exampleNotification = null;
                 setState(() {});
               },
