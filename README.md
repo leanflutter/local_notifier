@@ -1,6 +1,6 @@
 # local_notifier
 
-[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url]
+[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url] ![][visits-count-image] 
 
 [pub-image]: https://img.shields.io/pub/v/local_notifier.svg
 [pub-url]: https://pub.dev/packages/local_notifier
@@ -8,7 +8,9 @@
 [discord-image]: https://img.shields.io/discord/884679008049037342.svg
 [discord-url]: https://discord.gg/zPa6EZ2jqb
 
-This plugin allows Flutter **desktop** apps to displaying local notifications.
+[visits-count-image]: https://img.shields.io/badge/dynamic/json?label=Visits%20Count&query=value&url=https://api.countapi.xyz/hit/leanflutter.local_notifier/visits
+
+This plugin allows Flutter desktop apps to displaying local notifications.
 
 ---
 
