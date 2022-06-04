@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:local_notifier/local_notifier.dart';
+import 'package:window_manager/window_manager.dart';
 
 import './pages/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
 
   await localNotifier.setup(
     appName: 'local_notifier_example',

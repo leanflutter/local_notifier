@@ -84,6 +84,10 @@ public class LocalNotifierPlugin: NSObject, FlutterPlugin, NSUserNotificationCen
         _invokeMethod("onLocalNotificationShow", notification.identifier!)
     }
     
+    public func userNotificationCenter(_ center: NSUserNotificationCenter, shouldPresent notification: NSUserNotification) -> Bool {
+        return true
+    }
+    
     public func _invokeMethod(_ methodName: String, _ notificationId: String) {
         let args: NSDictionary = [
             "notificationId": notificationId,
