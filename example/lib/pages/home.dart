@@ -1,8 +1,7 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:preference_list/preference_list.dart';
 import 'package:local_notifier/local_notifier.dart';
-
-final localNotifier = LocalNotifier.instance;
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,13 +42,20 @@ class _HomePageState extends State<HomePage> {
           break;
         default:
       }
-      print('onClose ${_exampleNotification?.identifier} - $closeReason');
+      String log = 'onClose ${_exampleNotification?.identifier} - $closeReason';
+      print(log);
+      BotToast.showText(text: log);
     };
     _exampleNotification?.onClick = () {
-      print('onClick ${_exampleNotification?.identifier}');
+      String log = 'onClick ${_exampleNotification?.identifier}';
+      print(log);
+      BotToast.showText(text: log);
     };
     _exampleNotification?.onClickAction = (actionIndex) {
-      print('onClickAction ${_exampleNotification?.identifier} - $actionIndex');
+      String log =
+          'onClickAction ${_exampleNotification?.identifier} - $actionIndex';
+      print(log);
+      BotToast.showText(text: log);
     };
   }
 

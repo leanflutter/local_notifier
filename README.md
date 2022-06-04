@@ -54,7 +54,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.4
+  local_notifier: ^0.1.5
 ```
 
 Or
@@ -80,8 +80,12 @@ sudo apt-get install libnotify-dev
 ### Usage
 
 ```dart
-// Add this line in main method.
-localNotifier.setAppName('example');
+// Add in main method.
+await localNotifier.setup(
+  appName: 'local_notifier_example',
+  // The parameter shortcutPolicy only works on Windows
+  shortcutPolicy: ShortcutPolicy.requireCreate,
+);
 
 LocalNotification notification = LocalNotification(
   title: "local_notifier_example",

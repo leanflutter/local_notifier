@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:local_notifier/local_notifier.dart';
 
 import './pages/home.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  localNotifier.setAppName('example');
+  await localNotifier.setup(
+    appName: 'local_notifier_example',
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
 
   runApp(MyApp());
 }

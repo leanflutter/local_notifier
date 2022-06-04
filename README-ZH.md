@@ -54,7 +54,7 @@
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.4
+  local_notifier: ^0.1.5
 ```
 
 或
@@ -80,8 +80,12 @@ sudo apt-get install libnotify-dev
 ### 用法
 
 ```dart
-// 在 main 方法中添加这行。
-localNotifier.setAppName('example');
+// 在 main 方法中添加。
+await localNotifier.setup(
+  appName: 'local_notifier_example',
+  // 参数 shortcutPolicy 仅适用于 Windows
+  shortcutPolicy: ShortcutPolicy.requireCreate,
+);
 
 LocalNotification notification = LocalNotification(
   title: "local_notifier_example",

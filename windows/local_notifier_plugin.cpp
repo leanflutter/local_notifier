@@ -92,6 +92,9 @@ class LocalNotifierPlugin : public flutter::Plugin {
   std::unordered_map<std::string, INT64> toast_id_map_ = {};
 
   HWND LocalNotifierPlugin::GetMainWindow();
+  void LocalNotifierPlugin::Setup(
+      const flutter::MethodCall<flutter::EncodableValue>& method_call,
+      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
   void LocalNotifierPlugin::Notify(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
@@ -130,7 +133,7 @@ HWND LocalNotifierPlugin::GetMainWindow() {
   return ::GetAncestor(registrar->GetView()->GetNativeWindow(), GA_ROOT);
 }
 
-void LocalNotifierPlugin::Notify(
+void LocalNotifierPlugin::Setup(
     const flutter::MethodCall<flutter::EncodableValue>& method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
   if (!WinToast::isCompatible()) {
@@ -144,6 +147,36 @@ void LocalNotifierPlugin::Notify(
 
   std::string appName =
       std::get<std::string>(args.at(flutter::EncodableValue("appName")));
+  std::string shortcutPolicy =
+      std::get<std::string>(args.at(flutter::EncodableValue("shortcutPolicy")));
+
+  WinToast::instance()->setAppName(converter.from_bytes(appName));
+  WinToast::instance()->setAppUserModelId(converter.from_bytes(appName));
+  if (shortcutPolicy.compare("ignore") == 0) {
+    WinToast::instance()->setShortcutPolicy(WinToast::SHORTCUT_POLICY_IGNORE);
+  } else if (shortcutPolicy.compare("requireNoCreate") == 0) {
+    WinToast::instance()->setShortcutPolicy(
+        WinToast::SHORTCUT_POLICY_REQUIRE_NO_CREATE);
+  } else if (shortcutPolicy.compare("requireCreate") == 0) {
+    WinToast::instance()->setShortcutPolicy(
+        WinToast::SHORTCUT_POLICY_REQUIRE_CREATE);
+  }
+  WinToast::instance()->initialize();
+
+  result->Success(flutter::EncodableValue(true));
+}
+
+void LocalNotifierPlugin::Notify(
+    const flutter::MethodCall<flutter::EncodableValue>& method_call,
+    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
+  if (!WinToast::isCompatible()) {
+    std::wcout << L"Error, your system in not supported!" << std::endl;
+  }
+
+  std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+
+  const flutter::EncodableMap& args =
+      std::get<flutter::EncodableMap>(*method_call.arguments());
 
   std::string identifier =
       std::get<std::string>(args.at(flutter::EncodableValue("identifier")));
@@ -154,11 +187,6 @@ void LocalNotifierPlugin::Notify(
 
   flutter::EncodableList actions = std::get<flutter::EncodableList>(
       args.at(flutter::EncodableValue("actions")));
-
-  WinToast::instance()->setAppName(converter.from_bytes(appName));
-  WinToast::instance()->setAppUserModelId(converter.from_bytes(appName));
-  WinToast::instance()->setShortcutPolicy(WinToast::SHORTCUT_POLICY_IGNORE);
-  WinToast::instance()->initialize();
 
   WinToastTemplate toast = WinToastTemplate(WinToastTemplate::Text02);
   toast.setTextField(converter.from_bytes(title), WinToastTemplate::FirstLine);
@@ -209,7 +237,9 @@ void LocalNotifierPlugin::Close(
 void LocalNotifierPlugin::HandleMethodCall(
     const flutter::MethodCall<flutter::EncodableValue>& method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  if (method_call.method_name().compare("notify") == 0) {
+  if (method_call.method_name().compare("setup") == 0) {
+    Setup(method_call, std::move(result));
+  } else if (method_call.method_name().compare("notify") == 0) {
     Notify(method_call, std::move(result));
   } else if (method_call.method_name().compare("close") == 0) {
     Close(method_call, std::move(result));
