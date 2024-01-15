@@ -184,13 +184,25 @@ void LocalNotifierPlugin::Notify(
       std::get<std::string>(args.at(flutter::EncodableValue("title")));
   std::string body =
       std::get<std::string>(args.at(flutter::EncodableValue("body")));
+  std::string imagePath =
+      std::get<std::string>(args.at(flutter::EncodableValue("imagePath")));
+  std::string duration =
+      std::get<std::string>(args.at(flutter::EncodableValue("duration")));
 
   flutter::EncodableList actions = std::get<flutter::EncodableList>(
       args.at(flutter::EncodableValue("actions")));
-
-  WinToastTemplate toast = WinToastTemplate(WinToastTemplate::Text02);
+      
+  WinToastTemplate toast = imagePath.empty() ? WinToastTemplate(WinToastTemplate::Text02) : WinToastTemplate(WinToastTemplate::ImageAndText02);
   toast.setTextField(converter.from_bytes(title), WinToastTemplate::FirstLine);
   toast.setTextField(converter.from_bytes(body), WinToastTemplate::SecondLine);
+  if (!imagePath.empty()) {
+    toast.setImagePath(converter.from_bytes(imagePath));
+  }
+  if (duration.empty() || duration == "system") {
+    toast.setDuration(WinToastTemplate::Duration::System);
+  } else {
+    toast.setDuration(duration == "long" ? WinToastTemplate::Duration::Long : WinToastTemplate::Duration::Short);
+  }
 
   for (flutter::EncodableValue action_value : actions) {
     flutter::EncodableMap action_map =

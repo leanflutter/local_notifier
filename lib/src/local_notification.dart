@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_notifier/src/local_notification_duration.dart';
 import 'package:uuid/uuid.dart';
 
 import 'local_notification_action.dart';
@@ -21,6 +22,10 @@ class LocalNotification with LocalNotificationListener {
   /// Representing whether the notification is silent.
   bool silent;
 
+  LocalNotificationDuration? duration;
+
+  String? imagePath;
+
   /// Representing the actions of the notification.
   List<LocalNotificationAction>? actions;
 
@@ -36,6 +41,8 @@ class LocalNotification with LocalNotificationListener {
     this.body,
     this.silent = false,
     this.actions,
+    this.imagePath,
+    this.duration,
   }) {
     if (identifier != null) {
       this.identifier = identifier;
@@ -59,6 +66,8 @@ class LocalNotification with LocalNotificationListener {
       body: json['body'],
       silent: json['silent'],
       actions: actions,
+      imagePath: json['imagePath'],
+      duration: json['duration'],
     );
   }
 
@@ -70,6 +79,8 @@ class LocalNotification with LocalNotificationListener {
       'body': body ?? '',
       'silent': silent,
       'actions': (actions ?? []).map((e) => e.toJson()).toList(),
+      'imagePath': imagePath ?? '',
+      'duration': duration?.toString().split('.').last ?? '',
     }..removeWhere((key, value) => value == null);
   }
 
