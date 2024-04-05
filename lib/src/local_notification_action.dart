@@ -12,8 +12,8 @@ class LocalNotificationAction {
 
   factory LocalNotificationAction.fromJson(Map<String, dynamic> json) {
     return LocalNotificationAction(
-      type: json['type'],
-      text: json['text'],
+      type: json['type'] as String,
+      text: json['text'] as String,
     );
   }
 

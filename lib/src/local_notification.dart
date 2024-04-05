@@ -47,17 +47,19 @@ class LocalNotification with LocalNotificationListener {
     List<LocalNotificationAction>? actions;
 
     if (json['actions'] != null) {
-      Iterable l = json['actions'] as List;
-      actions =
-          l.map((item) => LocalNotificationAction.fromJson(item)).toList();
+      Iterable<dynamic> l = json['actions'] as List;
+      actions = l
+          .map((item) =>
+              LocalNotificationAction.fromJson(item as Map<String, dynamic>))
+          .toList();
     }
 
     return LocalNotification(
-      identifier: json['identifier'],
-      title: json['title'],
-      subtitle: json['subtitle'],
-      body: json['body'],
-      silent: json['silent'],
+      identifier: json['identifier'] as String?,
+      title: json['title'] as String,
+      subtitle: json['subtitle'] as String?,
+      body: json['body'] as String?,
+      silent: json['silent'] as bool,
       actions: actions,
     );
   }
