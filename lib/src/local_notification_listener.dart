@@ -1,7 +1,7 @@
-import 'local_notification_close_reason.dart';
-import 'local_notification.dart';
+import 'package:local_notifier/src/local_notification.dart';
+import 'package:local_notifier/src/local_notification_close_reason.dart';
 
-abstract class LocalNotificationListener {
+abstract mixin class LocalNotificationListener {
   void onLocalNotificationShow(LocalNotification notification) {}
   void onLocalNotificationClose(
     LocalNotification notification,

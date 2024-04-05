@@ -54,7 +54,7 @@
 
 ```yaml
 dependencies:
-  local_notifier: ^0.1.5
+  local_notifier: ^0.1.6
 ```
 
 或

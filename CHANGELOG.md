@@ -1,3 +1,8 @@
+## 0.1.6
+
+* Updates minimum supported SDK version to Flutter 3.3/Dart 3.0.
+* Fixed deprecations and dependencies version #27
+
 ## 0.1.4
 
 * [linux] Fixed build failed with error. #8

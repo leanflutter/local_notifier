@@ -1,10 +1,4 @@
 class LocalNotificationAction {
-  /// The type of action, can be button.
-  String type;
-
-  /// The label for the given action.
-  String? text;
-
   LocalNotificationAction({
     this.type = 'button',
     this.text,
@@ -16,6 +10,12 @@ class LocalNotificationAction {
       text: json['text'] as String,
     );
   }
+
+  /// The type of action, can be button.
+  String type;
+
+  /// The label for the given action.
+  String? text;
 
   Map<String, dynamic> toJson() {
     return {

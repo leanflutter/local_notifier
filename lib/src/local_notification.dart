@@ -1,34 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:local_notifier/src/local_notification_action.dart';
+import 'package:local_notifier/src/local_notification_close_reason.dart';
+import 'package:local_notifier/src/local_notification_listener.dart';
+import 'package:local_notifier/src/local_notifier.dart';
 import 'package:uuid/uuid.dart';
 
-import 'local_notification_action.dart';
-import 'local_notification_close_reason.dart';
-import 'local_notification_listener.dart';
-import 'local_notifier.dart';
-
 class LocalNotification with LocalNotificationListener {
-  String identifier = Uuid().v4();
-
-  /// Representing the title of the notification.
-  String title;
-
-  /// Representing the subtitle of the notification.
-  String? subtitle;
-
-  /// Representing the body of the notification.
-  String? body;
-
-  /// Representing whether the notification is silent.
-  bool silent;
-
-  /// Representing the actions of the notification.
-  List<LocalNotificationAction>? actions;
-
-  VoidCallback? onShow;
-  ValueChanged<LocalNotificationCloseReason>? onClose;
-  VoidCallback? onClick;
-  ValueChanged<int>? onClickAction;
-
   LocalNotification({
     String? identifier,
     required this.title,
@@ -49,8 +26,10 @@ class LocalNotification with LocalNotificationListener {
     if (json['actions'] != null) {
       Iterable<dynamic> l = json['actions'] as List;
       actions = l
-          .map((item) =>
-              LocalNotificationAction.fromJson(item as Map<String, dynamic>))
+          .map(
+            (item) =>
+                LocalNotificationAction.fromJson(item as Map<String, dynamic>),
+          )
           .toList();
     }
 
@@ -63,6 +42,28 @@ class LocalNotification with LocalNotificationListener {
       actions: actions,
     );
   }
+
+  String identifier = const Uuid().v4();
+
+  /// Representing the title of the notification.
+  String title;
+
+  /// Representing the subtitle of the notification.
+  String? subtitle;
+
+  /// Representing the body of the notification.
+  String? body;
+
+  /// Representing whether the notification is silent.
+  bool silent;
+
+  /// Representing the actions of the notification.
+  List<LocalNotificationAction>? actions;
+
+  VoidCallback? onShow;
+  ValueChanged<LocalNotificationCloseReason>? onClose;
+  VoidCallback? onClick;
+  ValueChanged<int>? onClickAction;
 
   Map<String, dynamic> toJson() {
     return {

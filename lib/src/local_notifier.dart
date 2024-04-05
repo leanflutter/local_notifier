@@ -3,11 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'local_notification.dart';
-import 'local_notification_close_reason.dart';
-import 'local_notification_listener.dart';
-import 'shortcut_policy.dart';
+import 'package:local_notifier/src/local_notification.dart';
+import 'package:local_notifier/src/local_notification_close_reason.dart';
+import 'package:local_notifier/src/local_notification_listener.dart';
+import 'package:local_notifier/src/shortcut_policy.dart';
 
 class LocalNotifier {
   LocalNotifier._() {
@@ -24,7 +23,7 @@ class LocalNotifier {
 
   bool _isInitialized = false;
   String? _appName;
-  Map<String, LocalNotification> _notifications = {};
+  final Map<String, LocalNotification> _notifications = {};
 
   Future<void> _methodCallHandler(MethodCall call) async {
     String notificationId = call.arguments['notificationId'] as String;

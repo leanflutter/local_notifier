@@ -1,6 +1,6 @@
 name: local_notifier
 description: This plugin allows Flutter desktop apps to displaying local notifications.
-version: 0.1.5
+version: 0.1.6
 homepage: https://github.com/leanflutter/local_notifier
 
 platforms:
@@ -8,9 +8,12 @@ platforms:
   macos:
   windows:
 
+topics:
+  - notifications
+
 environment:
-  sdk: ">=2.15.0 <4.0.0"
-  flutter: ">=2.8.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
@@ -21,6 +24,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mostly_reasonable_lints: ^0.1.1
 
 flutter:
   plugin:
