@@ -3,6 +3,10 @@
 * Updates minimum supported SDK version to Flutter 3.3/Dart 3.0.
 * Fixed deprecations and dependencies version #27
 
+## 0.1.5
+
+* [windows] Add setup method for initialization and removed setAppName method #16 #14 #9 #7
+
 ## 0.1.4
 
 * [linux] Fixed build failed with error. #8
