@@ -4,7 +4,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
-import 'package:preference_list/preference_list.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -153,28 +152,32 @@ class _HomePageState extends State<HomePage> with TrayListener {
   }
 
   Widget _buildBody(BuildContext context) {
-    return PreferenceList(
+    return ListView(
       children: <Widget>[
-        PreferenceListSection(
+        Column(
           children: [
-            PreferenceListItem(
+            ListTile(
               title: const Text('New a notification'),
               onTap: _handleNewLocalNotification,
             ),
           ],
         ),
-        PreferenceListSection(
-          title: Text('${_exampleNotification?.identifier}'),
+        Column(
           children: [
-            PreferenceListItem(
+            Row(
+              children: [
+                Text('${_exampleNotification?.identifier}'),
+              ],
+            ),
+            ListTile(
               title: const Text('show'),
               onTap: () => _exampleNotification?.show(),
             ),
-            PreferenceListItem(
+            ListTile(
               title: const Text('close'),
               onTap: () => _exampleNotification?.close(),
             ),
-            PreferenceListItem(
+            ListTile(
               title: const Text('destroy'),
               onTap: () async {
                 await _exampleNotification?.destroy();
@@ -185,14 +188,18 @@ class _HomePageState extends State<HomePage> with TrayListener {
           ],
         ),
         for (var notification in _notificationList)
-          PreferenceListSection(
-            title: Text(notification.identifier),
+          Column(
             children: [
-              PreferenceListItem(
+              Row(
+                children: [
+                  Text(notification.identifier),
+                ],
+              ),
+              ListTile(
                 title: const Text('show'),
                 onTap: () => notification.show(),
               ),
-              PreferenceListItem(
+              ListTile(
                 title: const Text('close'),
                 onTap: () => notification.close(),
               ),

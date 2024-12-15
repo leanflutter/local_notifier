@@ -12,14 +12,13 @@ dependencies:
     sdk: flutter
   local_notifier:
     path: ../
-  preference_list: ^0.0.1
   tray_manager: ^0.2.2
   window_manager: ^0.3.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mostly_reasonable_lints: ^0.1.1
+  mostly_reasonable_lints: ^0.1.2
 
 flutter:
   uses-material-design: true
