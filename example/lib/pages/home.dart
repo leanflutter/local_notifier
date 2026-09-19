@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     setState(() {});
   }
 
-  _handleNewLocalNotification() async {
+  Future<void> _handleNewLocalNotification() async {
     LocalNotification notification = LocalNotification(
       title: 'example - ${_notificationList.length}',
       subtitle: 'local_notifier_example',
